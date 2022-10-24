@@ -1,11 +1,20 @@
-import React from 'react';
+import * as React from 'react';
 import './App.css';
+import Box from '@mui/material/Box';
+import { Main } from './components/Main';
 
-const App = () => {
+const App:React.FC = () => {
   return (
-    <div className="App">
-      The Birth Gauge
-    </div>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh"
+      }}
+    >
+      <Main />
+    </Box>
   );
 }
 
