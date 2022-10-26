@@ -1,35 +1,59 @@
 import * as React from 'react';
-import { Chart, AxisOptions } from 'react-charts'
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
+  } from 'chart.js';
+import { Line } from 'react-chartjs-2';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { FormControl, InputLabel, Select, MenuItem, 
         FormHelperText, SelectChangeEvent } from '@mui/material';
 
-type FertilityRate = {
-    date: number,
-    tfr: number
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend
+  );
+
+const data = {
+        labels: [2019, 2020, 2021],
+        datasets: [{
+            label: 'Canada',
+            data: [
+                    {
+                        date: 2019,
+                        tfr: 1.5
+                    },
+                    {
+                        date: 2020,
+                        tfr: 1.9
+                    },
+                    {
+                        date: 2021,
+                        tfr: 1.3
+                    }
+                ]
+        }
+    ]
 }
 
-const data = [
-    {
-        label: 'Canada',
-        data: [
-            {
-                date: 2019,
-                tfr: 1.5
-            },
-            {
-                date: 2020,
-                tfr: 1.9
-            },
-            {
-                date: 2021,
-                tfr: 1.3
-            }
-        ]
+const options = {
+    parsing: {
+        xAxisKey: 'date',
+        yAxisKey: 'tfr'
     }
-]
+}
 
 export const GraphPage:React.FC = () => {
     const [country, setCountry] = React.useState('');
@@ -37,20 +61,6 @@ export const GraphPage:React.FC = () => {
     const handleChangeCountry = (e: SelectChangeEvent) => {
         setCountry(e.target.value);
     };
-
-    const primaryAxis = React.useMemo(
-        (): AxisOptions<FertilityRate> => ({
-            getValue: datum => datum.date
-        }), []
-    )
-
-    const secondaryAxes = React.useMemo(
-        (): AxisOptions<FertilityRate>[] => [
-            {
-                getValue: datum => datum.tfr
-            }
-        ], []
-    )
 
     return (
         <Box
@@ -70,12 +80,9 @@ export const GraphPage:React.FC = () => {
             border: '2px solid black',
             marginBottom: '10px'
         }}>
-            <Chart 
-                options={{
-                    data,
-                    primaryAxis,
-                    secondaryAxes
-                }}
+            <Line
+                data={data}
+                options={options}
             />
         </Box>
         <FormControl>
