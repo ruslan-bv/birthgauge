@@ -52,8 +52,6 @@ export const GraphPage:React.FC = () => {
         ], []
     )
 
-    const initialHeight = 200;
-
     return (
         <Box
         sx={{
